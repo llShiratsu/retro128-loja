@@ -32,9 +32,9 @@ function iniciarContador(campanha) {
     historicoContador.push({
       instante: Date.now(),
       restante: restante,
-      jogos: JOGOS.map((jogo) => ({ ...jogo })),
-      vitrine: vitrine.cloneNode(true)
+      cardsVisiveis: vitrine.querySelectorAll('.card').length
     });
+    if (historicoContador.length > 60) historicoContador.shift();
     Observabilidade.contar('contador_ticks');
     alvo.innerHTML = formatarTempo(restante);
   }
@@ -43,5 +43,5 @@ function iniciarContador(campanha) {
   Observabilidade.info('CONTADOR_INICIADO', 'Contador da Black Friday ativo', {
     fim: campanha.fim, intervalo: campanha.intervaloContadorSegundos
   });
-  return setInterval(tick, campanha.intervaloContadorSegundos);
+  return setInterval(tick, campanha.intervaloContadorSegundos * 1000);
 }
